@@ -19,15 +19,15 @@ export function Menu() {
   return (
     <Menubar className="rounded-none border-b border-none px-2 lg:px-4">
       <MenubarMenu>
-        <MenubarTrigger className="font-bold">Music</MenubarTrigger>
+        <MenubarTrigger className="font-bold">Terra D</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>About Music</MenubarItem>
+          <MenubarItem>About Terra D</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem>
+          {/* <MenubarItem>
             Preferences... <MenubarShortcut>⌘,</MenubarShortcut>
-          </MenubarItem>
+          </MenubarItem> */}
           <MenubarSeparator />
-          <MenubarItem>
+          {/* <MenubarItem>
             Hide Music... <MenubarShortcut>⌘H</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
@@ -36,10 +36,10 @@ export function Menu() {
           <MenubarShortcut />
           <MenubarItem>
             Quit Music <MenubarShortcut>⌘Q</MenubarShortcut>
-          </MenubarItem>
+          </MenubarItem> */}
         </MenubarContent>
       </MenubarMenu>
-      <MenubarMenu>
+      {/* <MenubarMenu>
         <MenubarTrigger className="relative">File</MenubarTrigger>
         <MenubarContent>
           <MenubarSub>
@@ -194,7 +194,7 @@ export function Menu() {
           <MenubarSeparator />
           <MenubarItem inset>Add Account...</MenubarItem>
         </MenubarContent>
-      </MenubarMenu>
+      </MenubarMenu> */}
     </Menubar>
   );
 }

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import { PlusCircleIcon } from "lucide-react";
+import { PlusCircleIcon, DownloadIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -11,32 +11,17 @@ import { Menu } from "@/app/menu";
 import { Sidebar } from "@/app/sidebar";
 import { listenNowAlbums, madeForYouAlbums } from "@/app/data/album";
 import { playlists } from "@/app/data/playlist";
+import { Input } from "@/components/ui/input";
 
 export const metadata: Metadata = {
-  title: "Music App",
-  description: "Example music app using the components.",
+  title: "Terra D App",
+  description: "App tp dovnload the Video files vithout using App and adds.",
 };
 
 export default function MusicPage() {
   return (
     <>
-      <div className="md:hidden">
-        <Image
-          src="/examples/music-light.png"
-          width={1280}
-          height={1114}
-          alt="Music"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/music-dark.png"
-          width={1280}
-          height={1114}
-          alt="Music"
-          className="hidden dark:block"
-        />
-      </div>
-      <div className="hidden md:block">
+      <div className="">
         <Menu />
         <div className="border-t">
           <div className="bg-background">
@@ -44,42 +29,50 @@ export default function MusicPage() {
               <Sidebar playlists={playlists} className="hidden lg:block" />
               <div className="col-span-3 lg:col-span-4 lg:border-l">
                 <div className="h-full px-4 py-6 lg:px-8">
-                  <div className="space-between flex items-center">
+                  <div className="py-2 gap-4 md:gap-6 space-between flex items-center">
+                    <Input placeholder="Enter terrabox Url"></Input>
                     <div className="ml-auto mr-4">
                       <Button>
                         <PlusCircleIcon className="mr-2 h-4 w-4" />
-                        Add music
+                        Fetch Information
                       </Button>
                     </div>
                   </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
+                  <div className="flex justify-between flex-col lg:flex-row">
+                    <div className="space-y-1 ">
                       <h2 className="text-2xl font-semibold tracking-tight">
-                        Listen Now
+                        Fetching Information
                       </h2>
                       <p className="text-sm text-muted-foreground">
-                        Top picks for you. Updated daily.
+                        Getting File
                       </p>
                     </div>
                   </div>
                   <Separator className="my-4" />
                   <div className="relative">
                     <ScrollArea>
-                      <div className="flex space-x-4 pb-4">
+                      <div className="flex grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
                         {listenNowAlbums.map((album) => (
                           <AlbumArtwork
                             key={album.name}
                             album={album}
-                            className="w-[250px]"
+                            className="w-full"
                             aspectRatio="portrait"
                             width={250}
                             height={330}
                           />
                         ))}
                       </div>
-                      <ScrollBar orientation="horizontal" />
+                      <ScrollBar orientation="vertical" />
                     </ScrollArea>
+                  </div>
+                  <div className="py-2 gap-4 md:gap-6 space-between flex items-center">
+                    <div className="mr-4">
+                      <Button>
+                        <DownloadIcon className="mr-2 h-4 w-4" />
+                        Download
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
