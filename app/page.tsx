@@ -156,6 +156,15 @@ export default function MusicPage() {
               <Sidebar playlists={[]} className="hidden lg:block" />
               <div className="col-span-3 lg:col-span-4 lg:border-l">
                 <div className="h-full px-2 py-6 lg:px-8">
+                  <div className="bg-gray-100 rounded-lg py-4 md:py-6 text-center">
+                    <h1 className="text-2xl md:text-4xl font-bold mb-4">
+                      Download from Terrabox Free
+                    </h1>
+                    <p className="text-base md:text-lg text-gray-600 mb-8">
+                      Download your favorite files from Terrabox with ease.
+                    </p>
+                  </div>
+
                   <div className="py-2 gap-4 md:gap-6 space-between flex items-center">
                     <Input
                       placeholder="Enter terrabox Url"
