@@ -15,6 +15,7 @@ import { AlbumArtwork } from "@/app/album-artwork";
 import { LoadingSpinner } from "@/components/ui/loader";
 
 import useSWR from "swr";
+import Link from "next/link";
 
 const fetchWithToken = async (url: string) => {
   const res = await fetch(url);
@@ -81,6 +82,10 @@ export default function MusicPage() {
   const [link, setLink] = useState("");
   const [err, setError] = useState("");
   const [disableInput, setdisableInput] = useState(false);
+  const [thumb, setThumb] = useState("");
+  const [video, setVideo] = useState("");
+
+  const [title, setTitle] = useState("Fetching Information...");
 
   const { data, error } = useSWR(
     () => (link ? `/api?data=${encodeURIComponent(link)}` : null),
@@ -90,7 +95,19 @@ export default function MusicPage() {
   useEffect(() => {
     if (data || error) {
       console.log("data", data);
+      if (!data || !data.thumb || !data.direct_link) {
+        // If data is missing or doesn't contain the necessary links, handle the error
+        setFileName("Link deleted");
+        setTitle("Link deleted, Invalid Link");
+        console.error("Data is missing necessary links");
+        setdisableInput(false); // Enable user input again
+        setFetchingInfo(false);
+        return; // Exit early
+      }
+
       setFetchingInfo(false);
+      setThumb(data?.thumb ?? "Thumbnail");
+      setVideo(data?.direct_link ?? "direct_link");
       setFileName(data?.file_name ?? "Dummy File Name");
       setFileSize(data?.size ?? "-1B");
       setLink("");
@@ -121,7 +138,12 @@ export default function MusicPage() {
   }
 
   const startDownload = async () => {
+    console.log("download clicked");
+    console.log("link", video);
     // Implement download logic
+    if (video) {
+      // Check if video is not undefined or null
+    }
   };
 
   return (
@@ -151,28 +173,34 @@ export default function MusicPage() {
                   <div className="flex justify-between flex-col lg:flex-row">
                     <div className="space-y-1 ">
                       <h2 className="text-2xl font-semibold tracking-tight">
-                        Fetching Information
+                        {title}
                       </h2>
                       <p className="text-sm text-muted-foreground">Thumbnail</p>
                     </div>
                   </div>
                   <Separator className="my-4" />
-                  <div className="relative">
-                    <ScrollArea>
-                      <div className="flex grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
-                        {listenNowAlbums.map((album) => (
-                          <AlbumArtwork
-                            key={album.name}
-                            album={album}
-                            className="w-full"
-                            aspectRatio="portrait"
-                            width={250}
-                            height={330}
-                          />
-                        ))}
+                  <div className="">
+                    <div className="py-2 gap-4 md:gap-6 space-between flex items-center">
+                      <div className="w-2/3 relative">
+                        {/**Video player component */}
+                        <video
+                          controls
+                          className="w-full h-auto md:h-full"
+                          src={video}
+                          poster={thumb}
+                        >
+                          Your browser does not support the video tag.
+                        </video>
                       </div>
-                      <ScrollBar orientation="vertical" />
-                    </ScrollArea>
+                      <div className="w-1/3 relative">
+                        {/**Thumbnail image */}
+                        <img
+                          src={thumb}
+                          alt="Thumbnail"
+                          className="w-full h-auto md:h-full object-cover"
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className=" py-2 gap-x-2 md:gap-x-6 items-center flex grid-cols-3 ">
                     <Label className="text-sm md:text-lg">File Name</Label>
@@ -183,14 +211,22 @@ export default function MusicPage() {
                     <Label className="text-sm md:text-lg line-clamp-1">
                       {fileSize}
                     </Label>
+
                     <Button onClick={startDownload} disabled={fetchingInfo}>
                       {fetchingInfo ? (
                         <LoadingSpinner size={20} />
                       ) : (
-                        <>
-                          <DownloadIcon className="mr-2 h-4 w-4" />
-                          Download
-                        </>
+                        <div className="flex flex-row gap-2 items-center">
+                          <DownloadIcon className="h-4 w-4" />
+                          <Link
+                            href={video}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className=""
+                          >
+                            Download
+                          </Link>
+                        </div>
                       )}
                     </Button>
                   </div>
